@@ -37,7 +37,6 @@ bot.on('message', async(msg) => {
   }
 })
 
-
 bot.on('message', async(msg) => {
   const chatId = msg.chat.id;
   const user = msg.chat.username
@@ -45,27 +44,35 @@ bot.on('message', async(msg) => {
     try {
      const data = JSON.parse(msg?.web_app_data?.data)
      const chatId2 = '-1001772500285'
-     bot.sendMessage(chatId2, 
-      'Новый заказ 🆕\nИмя товара: ' + data?.name + '\nТип доставки: ' + data?.orderType + '\nТип оплаты: ' + data?.orderType2 + '\nАдрес доставки: ' + data?.adress2 + '\nВкус: ' + data?.tasteValue + '\nПокупатель: @' + msg.chat.username)
-       bot.sendMessage(chatId, 'Ваш заказ в процессе ♻️\nИмя товара: ' + data?.name + '\nЦена: ' + data?.price + '\nКарта для оплаты товара: 4274320059141310\nБогдан Денисович Л\nЕсли хотите оплатить по карте,то нажмите кнопку ниже чтобы подтвердить оплату товара👇', {
-        reply_markup: {
-          inline_keyboard: [
-                [{text: 'Подтвердить', callback_data: 'Подтверждено'}],
-            ]
-        }
+     if(data?.orderType2 == 'Картой'){
+      bot.sendMessage(chatId2, 
+        'Новый заказ 🆕\nИмя товара: ' + data?.name + '\nТип доставки: ' + data?.orderType + '\nТип оплаты: ' + data?.orderType2 + '\nАдрес доставки: ' + data?.adress2 + '\nВкус: ' + data?.tasteValue + '\nПокупатель: @' + msg.chat.username)
+         bot.sendMessage(chatId, 'Ваш заказ в процессе ♻️\nИмя товара: ' + data?.name + '\nЦена: ' + data?.price + '\nКарта для оплаты товара: 4274320059141310\nБогдан Денисович Л\nЕсли хотите оплатить по карте,то нажмите кнопку ниже чтобы подтвердить оплату товара👇', {
+          reply_markup: {
+            inline_keyboard: [
+                  [{text: 'Подтвердить', callback_data: 'Подтверждено'}],
+              ]
+          }
+         })
+         bot.on('callback_query', msg => {
+          const data2 = msg.data
+          const chatId = msg.message.chat.id
+          const chatId2 = '-1001772500285'
+         if(data2 == 'Подтверждено'){
+            return bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + user)
+         }
        })
+     } else {
+      bot.sendMessage(chatId2, 
+        'Новый заказ 🆕\nИмя товара: ' + data?.name + '\nТип доставки: ' + data?.orderType + '\nТип оплаты: ' + data?.orderType2 + '\nАдрес доставки: ' + data?.adress2 + '\nВкус: ' + data?.tasteValue + '\nПокупатель: @' + msg.chat.username)
+         bot.sendMessage(chatId, 'Ваш заказ в процессе ♻️\nИмя товара: ' + data?.name + '\nЦена: ' + data?.price, {
+         })
+     }
+    
       } catch(e){
         console.log(e);
       }
     }
-    
-    bot.on('callback_query', async(msg) => {
-      const data2 = msg.data
-      const chatId = msg.message.chat.id
-      const chatId2 = '-1001772500285'
-     if(data2 == 'Подтверждено'){
-        bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + user)
-       await bot.sendMessage(chatId, 'Ожидайте подтверждения модераторов.')
-     }
-   })
-})
+  })
+
+
