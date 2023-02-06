@@ -56,13 +56,18 @@ bot.on('message', async(msg) => {
             ]
         })
        })
-       if(data == 'Подтвердить2'){
-        bot.sendMessage(chatId2, 
-          'Новый заказ 🆕\nОплата товара подтверждена\nПокупатель - @' + msg.chat.username)
-       }
-      
     } catch(e){
      console.log(e);
     }
  }
+})
+
+bot.on('callback_query', msg => {
+  const data = msg.data
+  const chatId = msg.message.chat.id
+  const chatId2 = '-1001772500285'
+  if(data == 'Подтвердить2'){
+    bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + msg.chat.username)
+    bot.sendMessage(chatId, 'Ожидайте подтверждения модераторов.')
+  }
 })
