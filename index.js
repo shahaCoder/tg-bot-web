@@ -57,9 +57,7 @@ bot.on('message', async(msg) => {
      console.log(e);
     }
  }
-})
-
-bot.on('callback_query', msg => {
+ bot.on('callback_query', msg => {
   const data = msg.data
   const chatId = msg.message.chat.id
   const chatId2 = '-1001772500285'
@@ -67,4 +65,5 @@ bot.on('callback_query', msg => {
     bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + msg.chat.username)
     bot.sendMessage(chatId, 'Ожидайте подтверждения модераторов.')
   }
+})
 })
