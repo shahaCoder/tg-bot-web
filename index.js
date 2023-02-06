@@ -7,7 +7,6 @@ const Appurl = 'https://quiet-alfajores-89a89f.netlify.app/'
 bot.on('message', async(msg) => {
   const chatId = msg.chat.id;
   const text = msg.text
-  // const data = msg.data
   if(text === '/start'){
       await bot.sendMessage(chatId, 'Добро пожаловать в нашего бота по продаже электронок! \nНаши электронки держатся дольше ваших отношений 😏💔\n\n⬛️ Широкий выбор вкусов\n⬛️ Дымность\n⬛️ Лучшая вкусопередача\n\nНажмите продолжить если вы достигли совершеннолетия (18+)👇', {
         reply_markup: JSON.stringify({
@@ -19,6 +18,7 @@ bot.on('message', async(msg) => {
       });   
     } 
   });
+
   bot.on('callback_query', msg => {
   const data = msg.data
   const chatId = msg.message.chat.id
@@ -39,7 +39,6 @@ bot.on('message', async(msg) => {
 
 bot.on('message', async(msg) => {
   const chatId = msg.chat.id;
-  const user = msg.chat.username
   if(msg?.web_app_data?.data){
     try {
      const data = JSON.parse(msg?.web_app_data?.data)
@@ -54,14 +53,6 @@ bot.on('message', async(msg) => {
               ]
           }
          })
-         bot.on('callback_query', msg => {
-          const data2 = msg.data
-          const chatId = msg.message.chat.id
-          const chatId2 = '-1001772500285'
-         if(data2 == 'Подтверждено'){
-            return bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + user)
-         }
-       })
      } else {
       bot.sendMessage(chatId2, 
         'Новый заказ 🆕\nИмя товара: ' + data?.name + '\nТип доставки: ' + data?.orderType + '\nТип оплаты: ' + data?.orderType2 + '\nАдрес доставки: ' + data?.adress2 + '\nВкус: ' + data?.tasteValue + '\nПокупатель: @' + msg.chat.username)
@@ -73,6 +64,16 @@ bot.on('message', async(msg) => {
         console.log(e);
       }
     }
+    // const user = msg.chat.username
   })
-
-
+  
+  bot.on('callback_query', async(msg) => {
+    const data2 = msg.data
+    const chatId = msg.message.chat.id
+    const chatId2 = '-1001772500285'
+   if(data2 == 'Подтверждено'){
+       await bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + msg.from.username)
+       await bot.sendMessage(chatId, 'Благодарим вас за покупку,в скором времени с вами свяжутся!')
+   }
+ })
+ bot.on("polling_error", console.log);
