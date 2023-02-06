@@ -18,9 +18,6 @@ bot.on('message', async(msg) => {
         })
       });   
     } 
-    if(data == 'Подтвердить'){
-      bot.delete_message(msg.chat.id, msg.message_id)
-    }
   });
   bot.on('callback_query', msg => {
   const data = msg.data
@@ -50,11 +47,11 @@ bot.on('message', async(msg) => {
      bot.sendMessage(chatId2, 
       'Новый заказ 🆕\nИмя товара: ' + data?.name + '\nТип доставки: ' + data?.orderType + '\nТип оплаты: ' + data?.orderType2 + '\nАдрес доставки: ' + data?.adress2 + '\nВкус: ' + data?.tasteValue + '\nПокупатель: @' + msg.chat.username)
        bot.sendMessage(chatId, 'Ваш заказ в процессе ♻️\nИмя товара: ' + data?.name + '\nЦена: ' + data?.price + '\nКарта для оплаты товара: 4274320059141310\nБогдан Денисович Л\nЕсли хотите оплатить картой то нажмите кнопку ниже,чтобы подтвердить оплату товара👇', {
-        reply_markup: JSON.stringify({
+        reply_markup: {
           inline_keyboard: [
                 [{text: 'Подтвердить', callback_data: 'Подтвердить2'}],
             ]
-        })
+        }
        })
     } catch(e){
      console.log(e);
