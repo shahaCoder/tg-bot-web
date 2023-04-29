@@ -59,21 +59,18 @@ bot.on('message', async(msg) => {
          bot.sendMessage(chatId, 'Ваш заказ в процессе ♻️\nИмя товара: ' + data?.name + '\nЦена: ' + data?.price, {
          })
      }
-    
       } catch(e){
         console.log(e);
       }
     }
-    // const user = msg.chat.username
   })
-  
   bot.on('callback_query', async(msg) => {
     const data2 = msg.data
     const chatId = msg.message.chat.id
     const chatId2 = '-1001772500285'
    if(data2 == 'Подтверждено'){
        await bot.sendMessage(chatId2, 'Оплата товара подтверждена!\nПокупатель: @' + msg.from.username)
-       await bot.sendMessage(chatId, 'Благодарим вас за покупку,в скором времени с вами свяжутся!')
+       await bot.sendMessage(chatId, 'Благодарим вас за покупку,в скором времени с вами свяжутся! \n Обратная связь: @kirrill014' )
    }
  })
  bot.on("polling_error", console.log);
